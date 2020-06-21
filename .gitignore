@@ -140,6 +140,9 @@ cython_debug/
 # Mac OS X
 .DS_Store
 
+# PyCharm
+.idea/
+
 # fullsizes
 photos/
 static/miniatures
