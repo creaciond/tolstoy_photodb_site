@@ -142,3 +142,4 @@ cython_debug/
 
 # fullsizes
 photos/
+static/miniatures
