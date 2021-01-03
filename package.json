@@ -1,0 +1,23 @@
+{
+  "name": "tolstoy_photodb_site",
+  "version": "1.0.0",
+  "description": "_Код к сайту-демо для проекта «Инстаграм Толстого» (совместно с Государственным музеем Л.Н. Толстого)_",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/creaciond/tolstoy_photodb_site.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/creaciond/tolstoy_photodb_site/issues"
+  },
+  "homepage": "https://github.com/creaciond/tolstoy_photodb_site#readme",
+  "dependencies": {
+    "jquery": "^3.5.1",
+    "materialize-css": "^1.0.0"
+  }
+}
