@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block pagetitle %}База данных фотографий Л.Н. Толстого: Результаты поиска{% endblock %}
+
+{% block content %}
+<!-- title section + call to action -->
+<div class="section no-pad-bot">
+    <div class="container">
+        <h2 class="header center">Результаты поиска</h2>
+    </div>
+</div>
+<!-- main body content -->
+<div class="container" id="content-main">
+    {% if photos_results %}
+        <table>
+            <thead>
+                <tr>
+                    <td><b>ID</b></td>
+                    <td><b>Название фотографии</b></td>
+                    <td><b>Место создания</b></td>
+                    <td><b>Год создания</b></td>
+                    <td><b>Миниатюра</b></td>
+                    <td><b>Скачать фотографию</b></td>
+
+                </tr>
+            </thead>
+            <tbody>
+            {% for photo in photos_results %}
+                <tr>
+                    <td>{{ photo.id }}</td>
+                    <td>{{ photo.title }}</td>
+                    <td>{{ photo.place }}</td>
+                    <td>{{ photo.date }}</td>
+                    <td><img src="{{ url_for('static', filename=photo.get_miniature()) }}" /></td>
+                    <td><a href="{{ url_for('download_full', filename=photo.get_picture()) }}">скачать</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+    <p>Кажется, ничего не нашлось. Попробуйте поискать что-то другое?</p>
+    {% endif %}
+</div>
+{% endblock %}

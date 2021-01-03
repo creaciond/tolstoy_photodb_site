@@ -4,12 +4,12 @@
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="./static/css/materialize.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/materialize.min.css') }}" media="screen, projection"/>
     <link rel="shortcut icon" href="./static/images/favicon.ico" type="image/x-icon">
     <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta charset="UTF-8">
-    <title>База данных фотографий Л.Н. Толстого</title>
+    <title>{% block pagetitle %}{% endblock %}</title>
 </head>
 <body>
     <!-- navbar -->
@@ -17,6 +17,7 @@
         <nav role="navigation" class="brown lighten-2">
             <div class="nav-wrapper container">
                 <a href="/" class="brand-logo">База данных фотографий Л.Н. Толстого</a>
+
                 <ul class="right hide-on-med-and-down">
                     <li><a href="/download">Скачать</a></li>
                     <li><a href="/search">Поиск</a></li>
@@ -26,16 +27,7 @@
     </header>
 
     <main>
-        <!-- title section + call to action -->
-        <div class="section no-pad-bot">
-            <div class="container">
-                <h2 class="header center">Результаты поиска</h2>
-            </div>
-        </div>
-        <!-- main body content -->
-        <div class="container" id="content-main">
-            Кажется, ничего не нашлось. Попробуйте поискать что-то другое?
-        </div>
+        {% block content %}{% endblock %}
     </main>
     <!-- Sticky footer -->
     <footer class="page-footer brown lighten-2">
@@ -66,7 +58,7 @@
         </div>
     </footer>
     <!--JavaScript at end of body for optimized loading-->
-    <script type="text/javascript" src="./static/js/materialize.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
 </body>
-
 </html>
