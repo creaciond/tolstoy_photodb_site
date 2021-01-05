@@ -27,12 +27,10 @@
             <tbody>
             {% for photo in photos_results %}
                 <tr>
-                    <td>{{ photo.id }}</td>
-                    <td>{{ photo.title }}</td>
-                    <td>{{ photo.place }}</td>
-                    <td>{{ photo.date }}</td>
-                    <td><img src="{{ url_for('static', filename=photo.get_miniature()) }}" /></td>
-                    <td><a href="{{ url_for('download_full', filename=photo.get_picture()) }}">скачать</a></td>
+                    <td>{{ photo.id_photo }}</td>
+                    <td>{{ photo.photo_description }}</td>
+                    <td>{{ photo.location }}</td>
+                    <td>{{ photo.year }}</td>
                 </tr>
             {% endfor %}
             </tbody>

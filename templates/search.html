@@ -16,22 +16,32 @@
             <div class="row">
                 <div class="col s12 m6">
                     <h5 class="header center">Ключевые слова</h5>
-                    <p class="light">
-                        <p>
-                            Название фотографии:
-                            <input type="text" name="photo_title" placeholder="например, «переснимок»" />
-                        </p>
-                        <p>
-                            Рубрики:
-                            <input type="text" name="rubrics" placeholder="например, «семья»" />
-                        </p>
-                    </p>
+                    <div class="input-field">
+                        <label for="id">Название фотографии:</label>
+                        <input type="text" name="photo_title" id="photo_title" placeholder="например, «переснимок»" />
+                    </div>
                 </div>
                 <div class="col s12 m6">
                     <h5 class="header center">Другие параметры</h5>
-                    <p>Место съёмки:
-                        <input type="text" name="place" placeholder="например, «Ясная Поляна»" />
-                    </p>
+                    <div class="input-field">
+                        <select name="place" id="place">
+                            <option value="" disabled selected>например, «Ясная Поляна»</option>
+                            {% for location in data["places"] %}
+                                <option value="{{ location.id_location }}">{{ location.location_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="place">Место съёмки:</label>
+
+                        <div class="input-field">
+                            <select name="rubrics" id="rubrics">
+                                <option value="" disabled selected>например, «семья»</option>
+                                {% for rubric in data["rubrics"] %}
+                                    <option value="{{ rubric.id_rubric }}">{{ rubric.rubric_name }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="rubrics">Рубрика:</label>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row center-align">
