@@ -1,22 +1,18 @@
 import sqlite3
 
 from flask import Flask
-from flask import render_template, request, url_for, send_from_directory
+from flask import render_template, request, url_for
 
-# самописки
-from db_work import search_by_title, search_by_place, search_by_rubric
-from photo_desc import Photo
+from model import *
 
 # конфиги
 app = Flask(__name__)
-app.config['FULL_FOLDER'] = "./photos/fullsize"
-
-
-# сохраняем фуллсайз фотографии
-@app.route("/<path:filename>")
-def download_full(filename):
-    return send_from_directory(app.config["FULL_FOLDER"],
-                               filename, as_attachment=True)
+# БД
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tolstoyphotos.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# БД и апп
+db.app = app
+db.init_app(app)
 
 
 @app.route("/")
@@ -31,46 +27,28 @@ def download():
 
 @app.route("/search")
 def search():
-    return render_template("search.html")
+    data_to_render = {}
+    data_to_render["rubrics"] = Rubric.query.all()
+    data_to_render["places"] = Location.query.all()
+    return render_template("search.html", data=data_to_render)
 
 
-@app.route("/results")
+@app.route("/results", methods=["GET", "POST"])
 def results():
-    try:
-        search_params = ["place", "photo_title", "rubrics"]
-        if request.args:
-            conn = sqlite3.connect("tolstoyphoto_db.sqlite3")
-            cursor = conn.cursor()
-            query_results = {}
-            for param in search_params:
-                query = request.args.get(param)
-                if query:
-                    if param == "place":
-                        res = search_by_place(query, cursor)
-                    elif param == "photo_title":
-                        res = search_by_title(query, cursor)
-                    elif param == "rubrics":
-                        res = search_by_rubric(query, cursor)
-                    query_results[param] = res
-            cursor.close()
-        overall_res = set()
-        if len(query_results.keys()) > 1:
-            for i, key in enumerate(query_results.keys()):
-                if i == 0:
-                    overall_res.update(query_results[key])
-                else:
-                    overall_res = overall_res & set(query_results[key])
-        else:
-            overall_res = query_results[next(iter(query_results))]
-        if len(overall_res) > 0:
-            parsed_results = [Photo(item) for item in overall_res]
-            return render_template("search_results.html",
-                                   photos_results=parsed_results)
-        else:
-            return render_template("search_empty.html")
-    except sqlite3.OperationalError as e:
-        print(e)
-        return render_template("error.html")
+    if request.form:
+        search_results = db.session.query(Photo)\
+            .join(Author)\
+            .join(Location)\
+            .join(PhotoRubric)\
+            .join(Rubric)\
+            .join(Files)\
+            .filter(
+                Photo.photo_description.like(request.form.get("photo_title")),
+                Photo.id_location == request.form.get("place"),
+                PhotoRubric.id_rubric == request.form.get("place")
+        )
+        print(search_results)
+        render_template("results.html", photos_results=search_results)
 
 
 if __name__ == "__main__":
