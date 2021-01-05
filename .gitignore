@@ -146,6 +146,7 @@ cython_debug/
 # fullsizes
 photos/
 static/miniatures
+*.db
 
 # npm
 node_modules/
