@@ -1,5 +1,3 @@
-import sqlite3
-
 from flask import Flask
 from flask import render_template, request, url_for
 
@@ -33,6 +31,12 @@ def search():
     return render_template("search.html", data=data_to_render)
 
 
+@app.route("/photo/<photo_id>")
+def photo_page(photo_id):
+    photo = Photo.query.get(photo_id)
+    return render_template("photo.html", photo=photo)
+
+
 @app.route("/results", methods=["GET", "POST"])
 def results():
     if request.form:
@@ -44,8 +48,7 @@ def results():
             .join(Files)\
             .filter(
                 Photo.photo_description.like(request.form.get("photo_title")),
-                Photo.id_location == request.form.get("place"),
-                PhotoRubric.id_rubric == request.form.get("place")
+                Photo.id_location == request.form.get("place")
         )
         print(search_results)
         render_template("results.html", photos_results=search_results)
