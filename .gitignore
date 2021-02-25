@@ -150,3 +150,6 @@ static/miniatures
 
 # npm
 node_modules/
+
+#чтобы все данные не полетели в гитхаб
+static/data

@@ -67,6 +67,7 @@ class Photo(db.Model):
     photo_description = db.Column("photoDescription", db.Text)
 
     museum_comments = db.relationship("MuseumDescription")
+
     files = db.relationship("Files")
 
     # location
