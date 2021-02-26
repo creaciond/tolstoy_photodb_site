@@ -63,5 +63,14 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/materialize.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/additional.js') }}"></script>
+    <script>
+    $(document).ready(function(){
+         $('#loader').hide();
+          $("#submission").click(function () {
+              $("#submission").hide();
+             $('#loader').show();
+         });
+     });
+    </script>
 </body>
 </html>
