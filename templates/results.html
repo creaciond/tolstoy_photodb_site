@@ -29,9 +29,9 @@
             {% for photo in photos_results %}
                 <tr>
                     <td>{{ photo.id_photo }}</td>
-                    <td>{{ photo.title }}</td>
-                    <td>{{ photo.location.location_name }}</td>
-                    <td>{{ photo.photo_description }}</td>
+                    <td><a href="/photo/{{ photo.id_photo }}" target="_blank">{{ photo.title if photo.title != "-1" else "Без названия" }}</a></td>
+                    <td>{{ photo.location.location_name if photo.location.location_name != "-1" else "Нет данных" }}</td>
+                    <td>{{ photo.photo_description if photo.photo_description != "-1" else "Нет данных" }}</td>
                     <td>{{ photo.year }}</td>
                     <td><img class="miniature" src="{{ url_for('static', filename=photo.files[0].miniature_file) }}" alt="{{ photo.location.location_name }}" /></td>
                     <td>{{ photo.files[0].fullsize_file }}</td>

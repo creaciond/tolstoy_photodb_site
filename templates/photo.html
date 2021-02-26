@@ -12,53 +12,31 @@
 </div>
 <!-- main body content -->
 <div class="container" id="content-main">
-    <!-- СЮДА ВСТАВИТЬ ФОТОГРАФИЮ ПОЛНОРАЗМЕР -->
+    <div class="center">
+        <img src="{{ url_for('static', filename=photo.files[0].fullsize_file) }}" alt="{{ photo.title }}" />
+    </div>
 
     <table>
         <tr>
-            <td>Путь</td>
-            <td>{{ photo.files.fullsize_file }}</td>
-        </tr>
-        <tr>
             <td>Автор фотографии</td>
-            <td>
-                {% if photo.author.author_name != '-1' %}
-                {{ photo.author.author_name }}
-                {% else %}
-                Нет данных
-                {% endif %}
-            </td>
+            <td>{{ photo.author.author_name if photo.author.author_name != "-1" else "Нет данных" }}</td>
         </tr>
         <tr>
             <td>Место съёмки</td>
-            <td>
-                {% if photo.location.location_name != '-1' %}
-                {{ photo.location.location_name }}
-                {% else %}
-                Нет данных
-                {% endif %}
-            </td>
+            <td>{{ photo.location.location_name if photo.location.location_name != "-1" else "Нет данных" }}</td>
         </tr>
         <tr>
             <td>Дата съёмки</td>
-            <td>
-                {% if photo.year != -1 %}
-                {{ photo.year }}
-                {% else %}
-                {{ "Нет данных" }}
-                {% endif %}
-            </td>
+            <td>{{ photo.year if photo.year != -1 else "Нет данных" }}</td>
         </tr>
         <tr>
             <td>Название фотографии</td>
-            <td> {{ photo.title }}</td>
+            <td> {{ photo.title if photo.title != "-1" else "Нет данных" }}</td>
         </tr>
         <tr>
             <td>Описание фотографии</td>
             <td>
-                {% if photo.photo_description != '-1' %}
-                {{ photo.photo_description }}
-                {% endif %}
+                {{ photo.photo_description if photo.photo_description != "-1" else "Нет описания" }}
             </td>
         </tr>
     </table>
