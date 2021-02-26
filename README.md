@@ -6,12 +6,12 @@ _Код к сайту для проекта «Инстаграм Толстог�
 ```
 tolstoy_photodb_site/
 - static/
+  - data/
+    - miniatures/
+    - fullsize/
+    - kamis/
+    - tei/
 - templates/
-- data/
-  - miniatures/
-  - fullsize/
-  - kamis/
-  - tei/
 - app.py
 - model.py
 - package.json
