@@ -29,7 +29,7 @@
             {% for photo in photos_results %}
                 <tr>
                     <td>{{ photo.id_photo }}</td>
-                    <td><a href="/photo/{{ photo.id_photo }}" target="_blank">{{ photo.title }}</a></td>
+                    <td><a href="/photo/{{ photo.id_photo }}" target="_blank">{{ photo.title if photo.title != "-1" else "Без названия" }}</a></td>
                     <td>{{ photo.location.location_name if photo.location.location_name != "-1" else "Нет данных" }}</td>
                     <td>{{ photo.photo_description if photo.photo_description != "-1" else "Нет данных" }}</td>
                     <td>{{ photo.year }}</td>
