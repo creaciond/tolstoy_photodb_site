@@ -25,29 +25,22 @@
                     <h5 class="header center">Другие параметры</h5>
                     <div class="input-field">
                         <select name="place" id="place">
-                            <option value="" disabled selected>например, «Ясная Поляна»</option>
                             {% for location in data["places"] %}
-                                <option value="{{ location.id_location }}">{{ location.location_name }}</option>
+                                {% if location.id_location == 370 %}
+                                    <option value="{{ location.id_location }}" selected>{{ location.location_name }}</option>
+                                {% else %}
+                                    <option value="{{ location.id_location }}">{{ location.location_name }}</option>
+                                {% endif %}
                             {% endfor %}
                         </select>
                         <label for="place">Место съёмки:</label>
-
-                        <div class="input-field">
-                            <select name="rubrics" id="rubrics">
-                                <option value="" disabled selected>например, «семья»</option>
-                                {% for rubric in data["rubrics"] %}
-                                    <option value="{{ rubric.id_rubric }}">{{ rubric.rubric_name }}</option>
-                                {% endfor %}
-                            </select>
-                            <label for="rubrics">Рубрика:</label>
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
             <div class="row center-align">
                 <input type="submit" class="waves-effect brown lighten-2 btn-large" value="Отправить" />
             </div>
-        </div>
     </form>
 </div>
 {% endblock %}

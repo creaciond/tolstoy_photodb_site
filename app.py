@@ -28,6 +28,7 @@ def search():
     data_to_render = {}
     data_to_render["rubrics"] = Rubric.query.all()
     data_to_render["places"] = Location.query.all()
+    data_to_render["authors"] = Author.query.all()
     return render_template("search.html", data=data_to_render)
 
 
@@ -40,18 +41,29 @@ def photo_page(photo_id):
 @app.route("/results", methods=["GET", "POST"])
 def results():
     if request.form:
-        search_results = db.session.query(Photo)\
-            .join(Author)\
-            .join(Location)\
-            .join(PhotoRubric)\
-            .join(Rubric)\
-            .join(Files)\
-            .filter(
-                Photo.photo_description.like(request.form.get("photo_title")),
-                Photo.id_location == request.form.get("place")
-        )
-        print(search_results)
-        render_template("results.html", photos_results=search_results)
+        print(request.form.get("place"))
+        author = None
+        location = None
+        photo_rubric = ''
+        rubric = ''
+        files = ''
+        if request.form.get('author'):
+            author = int(request.form.get('author'))
+        if request.form.get('place'):
+            location = int(request.form.get('place'))
+        search_results = []
+        if author:
+            search_results = db.session.query(Photo)\
+                .join(Author)\
+                .filter(
+                    Photo.id_author == author,
+                    Photo.id_location == location)\
+                .all()
+        else:
+            search_results = db.session.query(Photo) \
+                .filter(Photo.id_location == location)\
+                .all()
+        return render_template("results.html", photos_results=search_results)
 
 
 if __name__ == "__main__":

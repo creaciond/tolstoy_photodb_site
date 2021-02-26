@@ -18,6 +18,7 @@
                     <td><b>ID</b></td>
                     <td><b>Название фотографии</b></td>
                     <td><b>Место создания</b></td>
+                    <td><b>Описание</b></td>
                     <td><b>Год создания</b></td>
                     <td><b>Миниатюра</b></td>
                     <td><b>Скачать фотографию</b></td>
@@ -28,10 +29,12 @@
             {% for photo in photos_results %}
                 <tr>
                     <td>{{ photo.id_photo }}</td>
-                    <td>{{ photo.id_photo }}</td>
+                    <td>{{ photo.title }}</td>
+                    <td>{{ photo.location.location_name }}</td>
                     <td>{{ photo.photo_description }}</td>
-                    <td>{{ photo.location }}</td>
                     <td>{{ photo.year }}</td>
+                    <td><img class="miniature" src="{{ url_for('static', filename=photo.files[0].miniature_file) }}" alt="{{ photo.location.location_name }}" /></td>
+                    <td>{{ photo.files[0].fullsize_file }}</td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -40,4 +43,23 @@
     <p>Кажется, ничего не нашлось. Попробуйте поискать что-то другое?</p>
     {% endif %}
 </div>
+    <div class="fullscreen fullscreen_hidden">
+    <img class="fullscreen_img" src="" alt="" />
+    </div>
+    <script>
+    const images = Array.from(document.querySelectorAll('.miniature'));
+    const fullscreenPopup = document.querySelector('.fullscreen');
+    const fullscreenImg = document.querySelector('.fullscreen_img');
+    images.forEach((img) => {
+        img.addEventListener('click', (evt) => {
+            console.log(evt.target);
+            fullscreenImg.src = evt.target.src.replace('miniatures', 'fullsize');
+            fullscreenImg.alt = evt.target.alt;
+            fullscreenImg.addEventListener('click', () => {
+                fullscreenPopup.classList.add('fullscreen_hidden');
+            })
+            fullscreenPopup.classList.remove('fullscreen_hidden');
+        })
+    })
+    </script>
 {% endblock %}
