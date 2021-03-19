@@ -10,13 +10,14 @@
     </div>
 </div>
 <!-- main body content -->
-<div class="container" id="content-main">
+<div class="container res__table" id="content-main">
     {% if photos_results %}
         <table>
             <thead>
                 <tr>
                     <td><b>ID</b></td>
                     <td><b>Название фотографии</b></td>
+                    <td><b>Автор</b></td>
                     <td><b>Место создания</b></td>
                     <td><b>Описание</b></td>
                     <td><b>Год создания</b></td>
@@ -30,11 +31,12 @@
                 <tr>
                     <td>{{ photo.id_photo }}</td>
                     <td><a href="/photo/{{ photo.id_photo }}" target="_blank">{{ photo.title if photo.title != "-1" else "Без названия" }}</a></td>
+                    <td>{{ photo.author.author_name if photo.author.author_name != "-1" else "Нет данных" }}</td>
                     <td>{{ photo.location.location_name if photo.location.location_name != "-1" else "Нет данных" }}</td>
                     <td>{{ photo.photo_description if photo.photo_description != "-1" else "Нет данных" }}</td>
-                    <td>{{ photo.year }}</td>
+                    <td>{{ photo.year if photo.year != "-1" else "Нет данных" }}</td>
                     <td><img class="miniature" src="{{ url_for('static', filename=photo.files[0].miniature_file) }}" alt="{{ photo.location.location_name }}" /></td>
-                    <td>{{ photo.files[0].fullsize_file }}</td>
+                    <td><a download href="{{ url_for('static', filename=photo.files[0].fullsize_file) }}">Загрузить</a></td>
                 </tr>
             {% endfor %}
             </tbody>

@@ -26,15 +26,41 @@
                     <div class="input-field">
                         <select name="place" id="place">
                             {% for location in data["places"] %}
-                                {% if location.id_location == 370 %}
-                                    <option value="{{ location.id_location }}" selected>{{ location.location_name }}</option>
+                                {% if location.id_location == 0 %}
+                                    <option value="{{ location.id_location }}">Не выбрано</option>
                                 {% else %}
-                                    <option value="{{ location.id_location }}">{{ location.location_name }}</option>
+                                    {% if location.id_location == 370 %}
+                                        <option value="{{ location.id_location }}" selected>{{ location.location_name }}</option>
+                                    {% else %}
+                                        <option value="{{ location.id_location }}">{{ location.location_name }}</option>
+                                    {% endif %}
                                 {% endif %}
                             {% endfor %}
                         </select>
                         <label for="place">Место съёмки:</label>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field">
+                    <select name="author" id="author">
+                        {% for author in data["authors"] %}
+                            {% if author.id_author == 0 %}
+                                <option value="{{ author.id_author }}">Не выбран</option>
+                            {% else %}
+                                <option value="{{ author.id_author }}">{{ author.author_name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <label for="author">Автор</label>
+                </div>
+                <div class="input-field">
+                    <input type="number" name="start_year" id="start_year" value="1800" min="1800" max="1950" />
+                    <label for="start_year">Начало периода</label>
+                </div>
+                <div class="input-field">
+                    <input type="number" name="end_year" id="end_year" value="1950" min="1800" max="1950" />
+                    <label for="end_year">Конец периода</label>
                 </div>
             </div>
         </div>
