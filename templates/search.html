@@ -15,14 +15,14 @@
         <div class="section" id="search-form">
             <div class="row">
                 <div class="col s12 m6">
-                    <h5 class="header center">Ключевые слова</h5>
+                    <!--<h5 class="header center">Ключевые слова</h5>-->
                     <div class="input-field">
                         <label for="id">Название фотографии:</label>
                         <input type="text" name="photo_title" id="photo_title" placeholder="например, «переснимок»" />
                     </div>
                 </div>
                 <div class="col s12 m6">
-                    <h5 class="header center">Другие параметры</h5>
+                    <!--<h5 class="header center">Другие параметры</h5>-->
                     <div class="input-field">
                         <select name="place" id="place">
                             {% for location in data["places"] %}
@@ -42,25 +42,31 @@
                 </div>
             </div>
             <div class="row">
-                <div class="input-field">
-                    <select name="author" id="author">
-                        {% for author in data["authors"] %}
-                            {% if author.id_author == 0 %}
-                                <option value="{{ author.id_author }}">Не выбран</option>
-                            {% else %}
-                                <option value="{{ author.id_author }}">{{ author.author_name }}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                    <label for="author">Автор</label>
+                <div class="col s12 m6">
+                    <div class="input-field">
+                        <select name="author" id="author">
+                            {% for author in data["authors"] %}
+                                {% if author.id_author == 0 %}
+                                    <option value="{{ author.id_author }}">Не выбран</option>
+                                {% else %}
+                                    <option value="{{ author.id_author }}">{{ author.author_name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <label for="author">Автор</label>
+                    </div>
                 </div>
-                <div class="input-field">
-                    <input type="number" name="start_year" id="start_year" value="1800" min="1800" max="1950" />
-                    <label for="start_year">Начало периода</label>
+                <div class="col s12 m3">
+                    <div class="input-field">
+                        <input type="number" name="start_year" id="start_year" value="1820" min="1820" max="1950" />
+                        <label for="start_year">Начало периода</label>
+                    </div>
                 </div>
-                <div class="input-field">
-                    <input type="number" name="end_year" id="end_year" value="1950" min="1800" max="1950" />
-                    <label for="end_year">Конец периода</label>
+                <div class="col s12 m3">
+                    <div class="input-field">
+                        <input type="number" name="end_year" id="end_year" value="1950" min="1820" max="1950" />
+                        <label for="end_year">Конец периода</label>
+                    </div>
                 </div>
             </div>
         </div>

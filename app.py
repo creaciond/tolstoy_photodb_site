@@ -50,6 +50,7 @@ def results():
             'files': int(request.form.get('files')) if request.form.get('files') else None,
             'start_year': int(request.form.get('start_year')) if request.form.get('start_year') else None,
             'end_year': int(request.form.get('end_year')) if request.form.get('end_year') else None,
+            'photo_title': (request.form.get('photo_title')) if request.form.get('photo_title') else None,
         }
         print(query_data)
 
@@ -101,7 +102,14 @@ def results():
                     search_results = res
                 else:
                     search_results = None
-
+            if query_data['photo_title']:
+                res = search_results\
+                    .filter(
+                        Photo.title == query_data['photo_title'])
+                if res:
+                    search_results = res
+                else:
+                    search_results = None
             # создание окончательного списка с результатами
             search_results = search_results.all()
         return render_template("results.html", photos_results=search_results)
