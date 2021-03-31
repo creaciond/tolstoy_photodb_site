@@ -6,17 +6,10 @@
 <!-- title section + call to action -->
 <div class="section no-pad-bot">
     <div class="container">
-        <h2 class="header center">Информация о фотографии</h2>
-        <div class="row center">Фото №{{ photo.id_photo }}</div>
-    </div>
-</div>
-<!-- main body content -->
-<div class="container" id="content-main">
-    <div class="center">
+        <h2 class="header left">{{ photo.title }}</h2>
         <img src="{{ url_for('static', filename=photo.files[0].fullsize_file) }}" alt="{{ photo.title }}" />
-    </div>
-
-    <table>
+        <!--<div class="row center">Фото №{{ photo.id_photo }}</div>-->
+        <table>
         <tr>
             <td>Автор фотографии</td>
             <td>{{ photo.author.author_name if photo.author.author_name != "-1" else "Нет данных" }}</td>
@@ -40,5 +33,11 @@
             </td>
         </tr>
     </table>
+    </div>
+</div>
+<!-- main body content -->
+<div class="container res__table" id="content-main">
+
+
 </div>
 {% endblock %}

@@ -18,6 +18,11 @@ def index():
     return render_template("index.html")
 
 
+@app.route('/tolstoy-instagram')
+def tolstoy_insta():
+    return render_template("lg.html")
+
+
 @app.route("/download")
 def download():
     return render_template("download.html")
@@ -41,28 +46,77 @@ def photo_page(photo_id):
 @app.route("/results", methods=["GET", "POST"])
 def results():
     if request.form:
-        print(request.form.get("place"))
-        author = None
-        location = None
-        photo_rubric = ''
-        rubric = ''
-        files = ''
-        if request.form.get('author'):
-            author = int(request.form.get('author'))
-        if request.form.get('place'):
-            location = int(request.form.get('place'))
-        search_results = []
-        if author:
-            search_results = db.session.query(Photo)\
-                .join(Author)\
-                .filter(
-                    Photo.id_author == author,
-                    Photo.id_location == location)\
-                .all()
+        print(request.form)
+        query_data = {
+            'author': int(request.form.get('author')) if request.form.get('author') else None,
+            'location': int(request.form.get('place')) if request.form.get('place') else None,
+            'photo_rubric': int(request.form.get('photo_rubric')) if request.form.get('photo_rubric') else None,
+            'rubric': int(request.form.get('rubric')) if request.form.get('rubric') else None,
+            'files': int(request.form.get('files')) if request.form.get('files') else None,
+            'start_year': int(request.form.get('start_year')) if request.form.get('start_year') else None,
+            'end_year': int(request.form.get('end_year')) if request.form.get('end_year') else None,
+            'photo_title': (request.form.get('photo_title')) if request.form.get('photo_title') else None,
+        }
+        print(query_data)
+
+        search_results = db.session.query(Photo) \
+            .join(Author).join(Location)
+
+# Если не введены данные поиска, то возвращаются все результаты
+        if query_data['author'] == 0 and query_data['location'] == 0:
+            search_results = search_results.all()
         else:
-            search_results = db.session.query(Photo) \
-                .filter(Photo.id_location == location)\
-                .all()
+            # поиск по году-началу периода
+            if query_data['start_year']:
+                print(query_data['start_year'])
+                res = search_results\
+                    .filter(
+                        query_data['start_year'] < Photo.year)
+                if res:
+                    search_results = res
+
+            # поиск по году-концу периода
+            if query_data['end_year']:
+                print(query_data['end_year'])
+                res = search_results\
+                    .filter(
+                        query_data['end_year'] > Photo.year)
+                if res:
+                    search_results = res
+
+            # поиск по автору фотографии; если значение == 0 (не выбран автор), то пропускается
+            if query_data['author'] and query_data['author'] != 0:
+                print(query_data['author'])
+
+                res = search_results\
+                    .filter(
+                        Photo.id_author == query_data['author'])
+                if res:
+                    search_results = res
+                else:
+                    search_results = None
+
+            # поиск по месту, если значение == 0 (не выбрано место), то пропускается
+            if query_data['location'] and query_data['location'] != 0:
+                print(query_data['location'])
+
+                res = search_results\
+                    .filter(
+                        Photo.id_location == query_data['location'])
+                if res:
+                    search_results = res
+                else:
+                    search_results = None
+            if query_data['photo_title']:
+                res = search_results\
+                    .filter(
+                        Photo.title == query_data['photo_title'])
+                if res:
+                    search_results = res
+                else:
+                    search_results = None
+            # создание окончательного списка с результатами
+            search_results = search_results.all()
         return render_template("results.html", photos_results=search_results)
 
 

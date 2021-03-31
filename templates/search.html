@@ -4,13 +4,14 @@
 
 {% block content %}
 <!-- title section + call to action -->
-<div class="section no-pad-bot">
+<!--<div class="section no-pad-bot">
     <div class="container">
         <h2 class="header center">Поиск фотографий</h2>
     </div>
-</div>
+</div>-->
 <!-- main body content -->
-<div class="container" id="content-main">
+    <!--OLD VERSION:-->
+<!--<div class="container" id="content-main">
     <form method="POST" action="/results">
         <div class="section" id="search-form">
             <div class="row">
@@ -26,10 +27,14 @@
                     <div class="input-field">
                         <select name="place" id="place">
                             {% for location in data["places"] %}
-                                {% if location.id_location == 370 %}
-                                    <option value="{{ location.id_location }}" selected>{{ location.location_name }}</option>
+                                {% if location.id_location == 0 %}
+                                    <option value="{{ location.id_location }}">Не выбрано</option>
                                 {% else %}
-                                    <option value="{{ location.id_location }}">{{ location.location_name }}</option>
+                                    {% if location.id_location == 370 %}
+                                        <option value="{{ location.id_location }}" selected>{{ location.location_name }}</option>
+                                    {% else %}
+                                        <option value="{{ location.id_location }}">{{ location.location_name }}</option>
+                                    {% endif %}
                                 {% endif %}
                             {% endfor %}
                         </select>
@@ -37,10 +42,38 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col s12 m6">
+                    <div class="input-field">
+                        <select name="author" id="author">
+                            {% for author in data["authors"] %}
+                                {% if author.id_author == 0 %}
+                                    <option value="{{ author.id_author }}">Не выбран</option>
+                                {% else %}
+                                    <option value="{{ author.id_author }}">{{ author.author_name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <label for="author">Автор</label>
+                    </div>
+                </div>
+                <div class="col s12 m3">
+                    <div class="input-field">
+                        <input type="number" name="start_year" id="start_year" value="1820" min="1820" max="1950" />
+                        <label for="start_year">Начало периода</label>
+                    </div>
+                </div>
+                <div class="col s12 m3">
+                    <div class="input-field">
+                        <input type="number" name="end_year" id="end_year" value="1950" min="1820" max="1950" />
+                        <label for="end_year">Конец периода</label>
+                    </div>
+                </div>
+            </div>
         </div>
             <div class="row center-align">
                 <div id="submission">
-                    <input type="submit" class="waves-effect brown lighten-2 btn-large" value="Отправить" />
+                    <input type="submit" class="waves-effect brown lighten-2 btn-large" value="Поиск" />
                 </div>
                 <div id="loader">
                     <div class="preloader-wrapper small active">
@@ -59,5 +92,73 @@
                 </div>
             </div>
     </form>
-</div>
+</div>-->
+
+    <!--NEW VERSION-->
+    <section class="search" id="content-main">
+        <form class="search__form" method="POST" action="/results">
+            <div class="input-field search__input">
+                <label for="id">Название фотографии:</label>
+                <input type="text" name="photo_title" id="photo_title" placeholder="например, «переснимок»" />
+            </div>
+            <div class="input-field">
+                <select name="place" id="place">
+                    {% for location in data["places"] %}
+                        {% if location.id_location == 0 %}
+                            <option value="{{ location.id_location }}">Не выбрано</option>
+                        {% else %}
+                            {% if location.id_location == 370 %}
+                                <option value="{{ location.id_location }}" selected>{{ location.location_name }}</option>
+                            {% else %}
+                                <option value="{{ location.id_location }}">{{ location.location_name }}</option>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <label for="place">Место съёмки:</label>
+            </div>
+            <div class="input-field">
+                <select name="author" id="author">
+                    {% for author in data["authors"] %}
+                        {% if author.id_author == 0 %}
+                            <option value="{{ author.id_author }}">Не выбран</option>
+                        {% else %}
+                            <option value="{{ author.id_author }}">{{ author.author_name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <label for="author">Автор</label>
+            </div>
+        <div class="search__years">
+            <div class="input-field search__year">
+                <input type="number" name="start_year" id="start_year" value="1820" min="1820" max="1950" />
+                <label for="start_year">Начало периода</label>
+            </div>
+            <div class="search__year search__year">
+                <div class="input-field">
+                    <input type="number" name="end_year" id="end_year" value="1950" min="1820" max="1950" />
+                    <label for="end_year">Конец периода</label>
+                </div>
+            </div>
+        </div>
+        </form>
+        <div id="submission">
+            <input type="submit" class="search__button" value="Поиск"> <!--class="waves-effect brown lighten-2 btn-large" value="Поиск" />-->
+        </div>
+        <div id="loader">
+            <div class="preloader-wrapper small active">
+                <div class="spinner-layer spinner-brown-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}
