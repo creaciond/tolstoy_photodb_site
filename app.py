@@ -18,6 +18,11 @@ def index():
     return render_template("index.html")
 
 
+@app.route('/tolstoy-instagram')
+def tolstoy_insta():
+    return render_template("lg.html")
+
+
 @app.route("/download")
 def download():
     return render_template("download.html")
